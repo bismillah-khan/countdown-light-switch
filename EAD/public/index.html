@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Light Switch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .light {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background-color: #ccc;
+            transition: background-color 0.5s;
+        }
+        .light.on {
+            background-color: yellow;
+        }
+        .light.off {
+            background-color: #444;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        p {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Countdown Light Switch</h1>
+        <div id="light" class="light off"></div>
+        <button id="toggleButton">Turn On</button>
+        <p id="countdownText"></p>
+    </div>
+    <script>
+        let isLightOn = false;
+        let countdown = 10;
+        let timer;
+        
+        const light = document.getElementById('light');
+        const button = document.getElementById('toggleButton');
+        const countdownText = document.getElementById('countdownText');
+
+        function toggleLight() {
+            isLightOn = !isLightOn;
+            light.className = `light ${isLightOn ? 'on' : 'off'}`;
+            button.textContent = isLightOn ? 'Turn Off' : 'Turn On';
+            
+            if (isLightOn) {
+                countdown = 10;
+                countdownText.textContent = `Light will turn off in ${countdown} seconds`;
+                timer = setInterval(() => {
+                    countdown--;
+                    countdownText.textContent = `Light will turn off in ${countdown} seconds`;
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        isLightOn = false;
+                        light.className = 'light off';
+                        button.textContent = 'Turn On';
+                        countdownText.textContent = '';
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timer);
+                countdownText.textContent = '';
+            }
+        }
+        
+        button.addEventListener('click', toggleLight);
+    </script>
+</body>
+</html>
